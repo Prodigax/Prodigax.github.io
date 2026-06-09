@@ -1,1211 +1,599 @@
 <!DOCTYPE html>
-<html lang="en-US">
-  <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-<!-- Begin Jekyll SEO tag v2.8.0 -->
-<title>earnsim</title>
-<meta name="generator" content="Jekyll v3.10.0" />
-<meta property="og:title" content="earnsim" />
-<meta property="og:locale" content="en_US" />
-<link rel="canonical" href="https://earnsim.github.io/" />
-<meta property="og:url" content="https://earnsim.github.io/" />
-<meta property="og:site_name" content="earnsim" />
-<meta property="og:type" content="website" />
-<meta name="twitter:card" content="summary" />
-<meta property="twitter:title" content="earnsim" />
-<script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=C8A4Wu_5vGCUbreCLocI75oJb3VuCPcS-WaW9P5II4rJBZU5cBII2UQhZEd5G7TZ" charset="UTF-8"></script><script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebSite","headline":"earnsim","name":"earnsim","url":"https://earnsim.github.io/"}</script>
-<!-- End Jekyll SEO tag -->
-
-    <link rel="stylesheet" href="/assets/css/style.css?v=ae5b56ad076a2162d789656073f6bb3e0a4a2dea">
-    <!-- start custom head snippets, customize with your own _includes/head-custom.html file -->
-
-<!-- Setup Google Analytics -->
-
-
-
-<!-- You can set your favicon here -->
-<!-- link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" -->
-
-<!-- end custom head snippets -->
-
-  </head>
-  <body>
-    <div class="container-lg px-3 my-5 markdown-body">
-      
-      <h1><a href="https://earnsim.github.io/">earnsim</a></h1>
-      
-
-      
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>💰 EarnSim - Ultimate Fake Money Simulator</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Prodiga_X // Deep Nexus</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
-        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            user-select: none;
         }
-        
+
         body {
-            font-family: 'Orbitron', monospace;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            color: white;
-            overflow-x: hidden;
-        }
-        
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
+            background: radial-gradient(ellipse at 20% 30%, #04070f, #000000);
+            font-family: 'Space Grotesk', monospace;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
             position: relative;
         }
-        
-        .header h1 {
-            font-size: 3em;
-            font-weight: 900;
-            background: linear-gradient(45deg, #ffd700, #ffed4e);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
-            animation: glow 2s ease-in-out infinite alternate;
+
+        /* cyber scanlines */
+        body::after {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(0deg, rgba(0,255,255,0.02) 0px, rgba(0,255,255,0.02) 1px, transparent 1px, transparent 4px);
+            pointer-events: none;
+            z-index: 2;
         }
-        
-        @keyframes glow {
-            from { text-shadow: 0 0 20px rgba(255, 215, 0, 0.5); }
-            to { text-shadow: 0 0 40px rgba(255, 215, 0, 0.8); }
+
+        .app-router {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
         }
-        
-        .disclaimer {
-            background: rgba(255, 0, 0, 0.2);
-            border: 2px solid #ff4444;
-            border-radius: 10px;
-            padding: 15px;
-            margin-bottom: 20px;
-            text-align: center;
-            font-weight: bold;
-            animation: pulse 2s infinite;
+
+        /* page container */
+        .page {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateX(30px);
+            pointer-events: none;
+            padding: 1.8rem;
         }
-        
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
+
+        .page.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(0);
+            pointer-events: auto;
+            z-index: 20;
         }
-        
-        .balance-section {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 30px;
-            text-align: center;
-            margin-bottom: 30px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+
+        .glass-master {
+            background: rgba(6, 12, 24, 0.75);
+            backdrop-filter: blur(20px);
+            border-radius: 2.8rem;
+            border: 1px solid rgba(0, 255, 255, 0.45);
+            box-shadow: 0 30px 45px rgba(0, 0, 0, 0.7), 0 0 30px rgba(0, 255, 255, 0.2);
+            width: 100%;
+            max-width: 1300px;
+            height: 85vh;
+            max-height: 780px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
         }
-        
-        .balance {
-            font-size: 2.5em;
+
+        .page-header {
+            padding: 1.4rem 2rem;
+            border-bottom: 1px solid rgba(0, 255, 255, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-shrink: 0;
+        }
+
+        .page-title {
+            font-size: 1.8rem;
             font-weight: 700;
-            color: #00ff88;
-            text-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
+            background: linear-gradient(125deg, #fff, #6efff0, #c084fc);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
         }
-        
-        .tabs {
+
+        .nav-back {
+            background: rgba(255, 70, 100, 0.2);
+            border: 1px solid #ff6b8a;
+            padding: 0.45rem 1.2rem;
+            border-radius: 2.5rem;
+            color: #ffb7c5;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: 0.85rem;
+        }
+
+        .nav-back:hover {
+            background: #ff4d6d;
+            color: black;
+            border-color: white;
+            box-shadow: 0 0 12px #ff4d6d;
+        }
+
+        .scroll-area {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1.5rem 2rem;
+            scrollbar-width: thin;
+        }
+
+        .scroll-area::-webkit-scrollbar {
+            width: 4px;
+        }
+        .scroll-area::-webkit-scrollbar-track {
+            background: #0f1422;
+        }
+        .scroll-area::-webkit-scrollbar-thumb {
+            background: cyan;
+            border-radius: 8px;
+        }
+
+        /* main menu cards */
+        .cards-row {
             display: flex;
             justify-content: center;
-            margin-bottom: 20px;
+            gap: 2rem;
             flex-wrap: wrap;
-            gap: 10px;
-        }
-        
-        .tab {
-            background: rgba(255, 255, 255, 0.1);
-            border: none;
-            border-radius: 10px;
-            padding: 10px 20px;
-            color: white;
-            cursor: pointer;
-            font-family: 'Orbitron', monospace;
-            font-weight: bold;
-            transition: all 0.3s ease;
-        }
-        
-        .tab.active {
-            background: linear-gradient(45deg, #00ff88, #00cc6a);
-            box-shadow: 0 5px 20px rgba(0, 255, 136, 0.4);
-        }
-        
-        .tab-content {
-            display: none;
-        }
-        
-        .tab-content.active {
-            display: block;
-        }
-        
-        .earning-section {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-        
-        .earning-card {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 15px;
-            padding: 25px;
-            text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            transition: all 0.3s ease;
-        }
-        
-        .earning-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
-        }
-        
-        .earn-btn {
-            background: linear-gradient(45deg, #00ff88, #00cc6a);
-            border: none;
-            border-radius: 10px;
-            padding: 15px 30px;
-            font-size: 1.1em;
-            font-weight: bold;
-            color: white;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            font-family: 'Orbitron', monospace;
-            width: 100%;
-            margin-top: 10px;
-        }
-        
-        .earn-btn:hover {
-            background: linear-gradient(45deg, #00cc6a, #00ff88);
-            transform: scale(1.05);
-            box-shadow: 0 5px 20px rgba(0, 255, 136, 0.4);
-        }
-        
-        .earn-btn:disabled {
-            background: #666;
-            cursor: not-allowed;
-            transform: none;
-        }
-        
-        .shop-section {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 30px;
-            margin-bottom: 30px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-        
-        .shop-title {
-            text-align: center;
-            font-size: 2em;
-            margin-bottom: 20px;
-            color: #ffd700;
-        }
-        
-        .boosts-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-        }
-        
-        .boost-item {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 10px;
-            padding: 15px;
-            text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.3s ease;
-        }
-        
-        .boost-item:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-        }
-        
-        .boost-price {
-            color: #ff6b6b;
-            font-weight: bold;
-            font-size: 1.1em;
-        }
-        
-        .buy-btn {
-            background: linear-gradient(45deg, #ff6b6b, #ee5a52);
-            border: none;
-            border-radius: 8px;
-            padding: 8px 16px;
-            color: white;
-            cursor: pointer;
-            font-family: 'Orbitron', monospace;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            width: 100%;
-            margin-top: 10px;
-            font-size: 0.9em;
-        }
-        
-        .buy-btn:hover {
-            background: linear-gradient(45deg, #ee5a52, #ff6b6b);
-            transform: scale(1.05);
-        }
-        
-        .payout-section {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 30px;
-            text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-        
-        .payout-btn {
-            background: linear-gradient(45deg, #ffd700, #ffed4e);
-            border: none;
-            border-radius: 10px;
-            padding: 15px 30px;
-            font-size: 1.2em;
-            font-weight: bold;
-            color: #333;
-            cursor: pointer;
-            font-family: 'Orbitron', monospace;
-            transition: all 0.3s ease;
-        }
-        
-        .payout-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 5px 20px rgba(255, 215, 0, 0.4);
-        }
-        
-        .payout-btn:disabled {
-            background: #666;
-            color: #999;
-            cursor: not-allowed;
-            transform: none;
-        }
-        
-        .multiplier {
-            display: inline-block;
-            background: #ffd700;
-            color: #333;
-            padding: 5px 10px;
-            border-radius: 15px;
-            font-size: 0.8em;
-            font-weight: bold;
-            margin-left: 10px;
-        }
-        
-        .notification {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: rgba(0, 255, 136, 0.9);
-            color: white;
-            padding: 15px 20px;
-            border-radius: 10px;
-            font-weight: bold;
-            z-index: 1000;
-            transform: translateX(400px);
-            transition: transform 0.3s ease;
-        }
-        
-        .notification.show {
-            transform: translateX(0);
-        }
-        
-        .rarity-common { border-left: 4px solid #888; }
-        .rarity-rare { border-left: 4px solid #4a90e2; }
-        .rarity-epic { border-left: 4px solid #9b59b6; }
-        .rarity-legendary { border-left: 4px solid #f39c12; }
-        .rarity-mythic { border-left: 4px solid #e74c3c; }
-        .rarity-cosmic { border-left: 4px solid #ff00ff; animation: rainbow 3s linear infinite; }
-        
-        @keyframes rainbow {
-            0% { border-left-color: #ff0000; }
-            16% { border-left-color: #ff8000; }
-            33% { border-left-color: #ffff00; }
-            50% { border-left-color: #00ff00; }
-            66% { border-left-color: #0080ff; }
-            83% { border-left-color: #8000ff; }
-            100% { border-left-color: #ff0000; }
-        }
-        
-        .mini-game {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 10px;
-            padding: 20px;
-            margin: 10px 0;
-            text-align: center;
-        }
-        
-        .progress-bar {
-            width: 100%;
-            height: 20px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            overflow: hidden;
-            margin: 10px 0;
-        }
-        
-        .progress-fill {
+            align-items: center;
             height: 100%;
-            background: linear-gradient(45deg, #00ff88, #00cc6a);
-            width: 0%;
-            transition: width 0.3s ease;
+            min-height: 360px;
         }
 
-        select {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 8px;
-            padding: 8px;
-            color: white;
-            font-family: 'Orbitron', monospace;
-            margin: 10px 0;
+        .menu-card {
+            background: rgba(12, 22, 40, 0.8);
+            backdrop-filter: blur(12px);
+            border-radius: 2rem;
+            padding: 2rem 1.8rem;
+            width: 270px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            border: 1px solid rgba(0, 255, 255, 0.35);
+            text-align: center;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            border-color: cyan;
+            box-shadow: 0 20px 30px -8px rgba(0, 255, 255, 0.4);
+        }
+
+        /* game preview card (scripts vault list) */
+        .game-preview {
+            background: rgba(0, 0, 0, 0.55);
+            border-radius: 1.5rem;
+            padding: 1.2rem 1.5rem;
+            margin-bottom: 1.5rem;
+            border-left: 5px solid cyan;
+            transition: 0.2s;
             cursor: pointer;
         }
 
-        select:focus {
-            outline: none;
-            border-color: #00ff88;
+        .game-preview:hover {
+            background: rgba(0, 30, 40, 0.7);
+            transform: translateX(5px);
+        }
+
+        .see-more-btn {
+            background: rgba(0, 255, 255, 0.2);
+            border: 1px solid cyan;
+            padding: 0.45rem 1.2rem;
+            border-radius: 2rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: white;
+            margin-top: 0.8rem;
+        }
+
+        .see-more-btn:hover {
+            background: cyan;
+            color: black;
+        }
+
+        /* detail page */
+        .detail-section {
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 1.8rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+
+        .feature-pill {
+            background: rgba(0, 255, 255, 0.15);
+            padding: 0.25rem 1rem;
+            border-radius: 40px;
+            font-size: 0.75rem;
+            color: #ccf5ff;
+        }
+
+        .copy-manual-area {
+            background: #010a12;
+            border-radius: 1rem;
+            padding: 0.8rem;
+            font-family: monospace;
+            font-size: 0.75rem;
+            word-break: break-all;
+            color: #abf0ff;
+            border: 1px solid cyan;
+            margin-top: 0.8rem;
+        }
+
+        .btn-manual-copy {
+            background: #0a4c6e;
+            border: none;
+            padding: 0.5rem 1.2rem;
+            border-radius: 2rem;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-top: 0.6rem;
+        }
+
+        .btn-manual-copy:hover {
+            background: cyan;
+            color: black;
+        }
+
+        .white-text {
+            color: white;
+        }
+        .cyan-glow {
+            color: cyan;
+        }
+        hr {
+            border-color: rgba(0,255,255,0.2);
+            margin: 1rem 0;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>💰 EarnSim Ultimate</h1>
-            <p>The Most Advanced Fake Money Simulator</p>
-        </div>
-        
-        <div class="disclaimer">
-            ⚠️ THIS IS A SIMULATION GAME - NO REAL MONEY INVOLVED ⚠️
-        </div>
-        
-        <div class="balance-section">
-            <h2>Your Fake Balance</h2>
-            <div class="balance">$<span id="balance">0.00</span></div>
-            <div>Total Earned: $<span id="totalEarned">0.00</span> | Level: <span id="level">1</span></div>
-            <div class="progress-bar">
-                <div class="progress-fill" id="xpBar"></div>
+<div class="app-router">
+    <!-- PAGE 1: MAIN MENU -->
+    <div id="mainMenuPage" class="page active">
+        <div class="glass-master">
+            <div class="page-header">
+                <div class="page-title">⟡ PRODIGA_X NEXUS ⟡</div>
+                <div style="font-size: 0.7rem; color: #6d8fc6;">core access v3</div>
             </div>
-            <div>XP: <span id="xp">0</span> / <span id="xpNeeded">100</span></div>
-            <button class="payout-btn" onclick="resetData()">RESET ALL DATA</button>
-        </div>
-        
-        <div class="tabs">
-            <button class="tab active" onclick="switchTab('basic')">Basic Earning</button>
-            <button class="tab" onclick="switchTab('advanced')">Advanced Methods</button>
-            <button class="tab" onclick="switchTab('minigames')">Mini Games</button>
-            <button class="tab" onclick="switchTab('shop')">Boost Shop</button>
-            <button class="tab" onclick="switchTab('payout')">Payouts</button>
-        </div>
-        
-        <div id="basic" class="tab-content active">
-            <div class="earning-section">
-                <div class="earning-card">
-                    <h3>⚡ Quick Earn</h3>
-                    <p>Wait 5 seconds</p>
-                    <p>Earn: $0.01 <span class="multiplier" id="multiplier1">x1</span></p>
-                    <button class="earn-btn" id="earn1" onclick="startEarning(1, 5000, 0.01)">WAIT 5 SECONDS</button>
-                    <div id="timer1"></div>
-                </div>
-                
-                <div class="earning-card">
-                    <h3>💎 Better Earn</h3>
-                    <p>Wait 10 seconds</p>
-                    <p>Earn: $0.03 <span class="multiplier" id="multiplier2">x1</span></p>
-                    <button class="earn-btn" id="earn2" onclick="startEarning(2, 10000, 0.03)">WAIT 10 SECONDS</button>
-                    <div id="timer2"></div>
-                </div>
-                
-                <div class="earning-card">
-                    <h3>🚀 Premium Earn</h3>
-                    <p>Wait 15 seconds</p>
-                    <p>Earn: $0.07 <span class="multiplier" id="multiplier3">x1</span></p>
-                    <button class="earn-btn" id="earn3" onclick="startEarning(3, 15000, 0.07)">WAIT 15 SECONDS</button>
-                    <div id="timer3"></div>
-                </div>
-                
-                <div class="earning-card">
-                    <h3>⭐ Mega Earn</h3>
-                    <p>Wait 30 seconds</p>
-                    <p>Earn: $0.20 <span class="multiplier" id="multiplier4">x1</span></p>
-                    <button class="earn-btn" id="earn4" onclick="startEarning(4, 30000, 0.20)">WAIT 30 SECONDS</button>
-                    <div id="timer4"></div>
-                </div>
-            </div>
-        </div>
-        
-        <div id="advanced" class="tab-content">
-            <div class="earning-section">
-                <div class="earning-card">
-                    <h3>📊 Fake Stock Market</h3>
-                    <p>Invest and wait for returns</p>
-                    <p>Investment: $1.00 | Return: $0-$2.00</p>
-                    <select id="stockAmount">
-                        <option value="1">Invest $1.00</option>
-                        <option value="5">Invest $5.00</option>
-                        <option value="10">Invest $10.00</option>
-                    </select>
-                    <button class="earn-btn" onclick="investStock()">INVEST IN STOCKS</button>
-                    <div id="stockTimer"></div>
-                </div>
-                
-                <div class="earning-card">
-                    <h3>⛏️ Fake Mining</h3>
-                    <p>Mine fake cryptocurrency</p>
-                    <p>Cost: $0.50 | Earn: $0-$2.50</p>
-                    <select id="miningAmount">
-                        <option value="0.5">Mine $0.50</option>
-                        <option value="2">Mine $2.00</option>
-                        <option value="5">Mine $5.00</option>
-                    </select>
-                    <button class="earn-btn" onclick="startMining()">START MINING</button>
-                    <div id="miningTimer"></div>
-                </div>
-                
-                <div class="earning-card">
-                    <h3>🎰 Lucky Spin</h3>
-                    <p>Spin the wheel of fortune</p>
-                    <p>Cost: $0.25 | Win: $0-$2.00</p>
-                    <button class="earn-btn" onclick="spinWheel()">SPIN WHEEL</button>
-                </div>
-                
-                <div class="earning-card">
-                    <h3>📝 Fake Surveys</h3>
-                    <p>Complete fake surveys</p>
-                    <p>Time: 20s | Earn: $0.15</p>
-                    <button class="earn-btn" id="surveyBtn" onclick="startSurvey()">DO SURVEY</button>
-                    <div id="surveyTimer"></div>
-                </div>
-                
-                <div class="earning-card">
-                    <h3>📱 Watch Fake Ads</h3>
-                    <p>Watch 10 second ads</p>
-                    <p>Earn: $0.05 per ad</p>
-                    <button class="earn-btn" id="adBtn" onclick="watchAd()">WATCH AD</button>
-                    <div id="adTimer"></div>
-                </div>
-                
-                <div class="earning-card">
-                    <h3>🎯 Daily Bonus</h3>
-                    <p>Claim your daily reward</p>
-                    <p>Reward: $2.00</p>
-                    <button class="earn-btn" id="dailyBtn" onclick="claimDaily()">CLAIM DAILY</button>
-                </div>
-            </div>
-        </div>
-        
-        <div id="minigames" class="tab-content">
-            <div class="earning-section">
-                <div class="mini-game">
-                    <h3>🎲 Number Guessing Game</h3>
-                    <p>Guess a number between 1-10</p>
-                    <input type="number" id="guessInput" min="1" max="10" placeholder="Enter guess" />
-                    <button class="earn-btn" onclick="playGuessGame()">GUESS &amp; WIN</button>
-                    <div>Win: $0.50 | Lose: -$0.15</div>
-                </div>
-                
-                <div class="mini-game">
-                    <h3>🃏 Card Flip</h3>
-                    <p>Find the ace among 4 cards</p>
-                    <div id="cardGame">
-                        <button onclick="flipCard(0)">Card 1</button>
-                        <button onclick="flipCard(1)">Card 2</button>
-                        <button onclick="flipCard(2)">Card 3</button>
-                        <button onclick="flipCard(3)">Card 4</button>
+            <div class="scroll-area" style="display: flex; align-items: center; justify-content: center;">
+                <div class="cards-row">
+                    <div class="menu-card" data-nav="scripts">
+                        <div class="card-icon-large"><i class="fas fa-code" style="font-size: 2.8rem; color: cyan;"></i></div>
+                        <h2 style="font-size: 1.8rem; background: linear-gradient(145deg,#fff,#7efff0); background-clip:text; -webkit-background-clip:text; color:transparent;">Scripts</h2>
+                        <p style="color:#b8ceff;">ESP, auto-farm, utilities</p>
                     </div>
-                    <div>Win: $1.00 | Lose: -$0.35</div>
+                    <div class="menu-card" data-nav="pricing">
+                        <div class="card-icon-large"><i class="fas fa-gem" style="font-size: 2.8rem; color: cyan;"></i></div>
+                        <h2 style="font-size: 1.8rem; background: linear-gradient(145deg,#fff,#7efff0); background-clip:text; -webkit-background-clip:text; color:transparent;">Pricing</h2>
+                        <p style="color:#b8ceff;">activation steps</p>
+                    </div>
+                    <div class="menu-card" data-nav="dev">
+                        <div class="card-icon-large"><i class="fas fa-microchip" style="font-size: 2.8rem; color: cyan;"></i></div>
+                        <h2 style="font-size: 1.8rem; background: linear-gradient(145deg,#fff,#7efff0); background-clip:text; -webkit-background-clip:text; color:transparent;">Under Development</h2>
+                        <p style="color:#b8ceff;">forthcoming chaos</p>
+                    </div>
                 </div>
-                
-                <div class="mini-game">
-                    <h3>⚡ Click Challenge</h3>
-                    <p>Click as fast as you can in 10 seconds</p>
-                    <button class="earn-btn" id="clickBtn" onclick="startClickChallenge()">START CHALLENGE</button>
-                    <div>Clicks: <span id="clickCount">0</span> | Time: <span id="clickTime">10</span>s</div>
-                    <div>Earn $0.005 per click!</div>
-                </div>
-            </div>
-        </div>
-        
-        <div id="shop" class="tab-content">
-            <div class="shop-section">
-                <h2 class="shop-title">🚀 Ultimate Boost Shop</h2>
-                <div class="boosts-grid" id="boostGrid">
-                    <!-- Boosts will be dynamically generated -->
-                </div>
-            </div>
-        </div>
-        
-        <div id="payout" class="tab-content">
-            <div class="payout-section">
-                <h2>💸 Advanced Payout System</h2>
-                <p>Minimum payout: $10.00</p>
-                <button class="payout-btn" id="payoutBtn" onclick="requestPayout()" disabled="">REQUEST FAKE PAYOUT</button>
-                <div id="payoutHistory"></div>
             </div>
         </div>
     </div>
-    
-    <div class="notification" id="notification"></div>
-    
-    <script>
-        let gameData = {
-            balance: 0,
-            totalEarned: 0,
-            multiplier1: 1,
-            multiplier2: 1,
-            multiplier3: 1,
-            multiplier4: 1,
-            payouts: 0,
-            level: 1,
-            xp: 0,
-            clickCount: 0,
-            dailyClaimed: false,
-            acePosition: 0,
-            luckBoost: false,
-            xpDoubler: false,
-            autoClicker: false,
-            interestGenerator: false,
-            efficiencyBoost: false,
-            timeWarp: false,
-            lastDailyClaim: 0
-        };
+
+    <!-- PAGE 2: SCRIPTS VAULT (game list with "Click to see more") -->
+    <div id="scriptsVaultPage" class="page">
+        <div class="glass-master">
+            <div class="page-header">
+                <div class="page-title"><i class="fas fa-scroll"></i> Script Vault</div>
+                <div class="nav-back" id="backFromVault"><i class="fas fa-arrow-left"></i> Go Back</div>
+            </div>
+            <div class="scroll-area" id="vaultGamesList"></div>
+        </div>
+    </div>
+
+    <!-- PAGE 3: GAME DETAIL (dynamic per game) -->
+    <div id="gameDetailPage" class="page">
+        <div class="glass-master">
+            <div class="page-header">
+                <div class="page-title" id="detailGameTitle">Game Name</div>
+                <div class="nav-back" id="backFromDetail"><i class="fas fa-arrow-left"></i> Back to Vault</div>
+            </div>
+            <div class="scroll-area" id="gameDetailContent"></div>
+        </div>
+    </div>
+
+    <!-- PAGE 4: PRICING (white text) -->
+    <div id="pricingPage" class="page">
+        <div class="glass-master">
+            <div class="page-header">
+                <div class="page-title"><i class="fas fa-tag"></i> Pricing & Access</div>
+                <div class="nav-back" id="backFromPricing"><i class="fas fa-arrow-left"></i> Go Back</div>
+            </div>
+            <div class="scroll-area" id="pricingDynamicContent"></div>
+        </div>
+    </div>
+
+    <!-- PAGE 5: UNDER DEVELOPMENT -->
+    <div id="devPage" class="page">
+        <div class="glass-master">
+            <div class="page-header">
+                <div class="page-title"><i class="fas fa-drafting-compass"></i> Deep Forge</div>
+                <div class="nav-back" id="backFromDev"><i class="fas fa-arrow-left"></i> Go Back</div>
+            </div>
+            <div class="scroll-area" id="devStaticContent">
+                <div style="text-align: center; padding: 2rem;">
+                    <i class="fas fa-microchip" style="font-size: 4rem; color: #ff77cc;"></i>
+                    <h2 style="margin-top: 1rem; color: #ffbbee;">⚡ UNDER DEVELOPMENT ⚡</h2>
+                    <p style="margin-top: 1rem; color: #cdb5ff;">next-gen tools · private builds · advanced evasion</p>
+                    <p style="margin-top: 2rem; font-size: 0.8rem; color: #9b9eff;"><i class="fas fa-sync-alt fa-spin"></i> status: quantum incubation</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // ---------- GAME DATABASE ----------
+    const GAME_LIBRARY = {
+        intoTheAbyss: {
+            id: "intoTheAbyss",
+            name: "Into The Abyss",
+            shortDesc: "Deep descent survival — ESP mastery",
+            fullDesc: "Explore the abyss with absolute awareness. Dominate every lobby using supernatural ESP modules and stamina hacks. Works on every modern executor.",
+            features: ["Scrap ESP", "Monster ESP", "Artifact ESP", "Trap ESP", "Elevator point ESP (WIP)", "Fullbright", "Nofog", "Infinite stamina"],
+            note: "now works on every exec (expect shitsploits (downer than xeno/solara))",
+            scriptCode: `loadstring(game:HttpGet('https://raw.githubusercontent.com/Prodigax/Roblox-into-the-abyss-script/refs/heads/main/into%20the%20abyss%20script'))()`,
+            gameUrl: "https://www.roblox.com/games/113275514991402/Into-the-Abyss"
+        },
+        noMercy: {
+            id: "noMercy",
+            name: "No Mercy",
+            shortDesc: "Auto farm + anti-threat annihilation",
+            fullDesc: "Ultimate survival and auto-farming tool. Eliminate global threats, remove obstacles, and AFK farm with ease. Pair with Infinite Yield fly for optimal results.",
+            features: ["Auto farm", "Anti Threats: Remove ads, No Shadow, No lasers", "Global Threats: no oxi, no spinning laser, no R-Boom-Ba", "No cars, no Cupid, no rook, no Dummy punch (Will be updated)"],
+            note: "recommend to use infinite yield fly to fly away and enable everything and change auto farm type to bring for afk farming",
+            scriptCode: `loadstring(game:HttpGet('https://raw.githubusercontent.com/Prodigax/NoMercyRobloxgoogoo/refs/heads/main/Wowz'))()`,
+            gameUrl: "https://www.roblox.com/games/76469664755176/No-Mercy"
+        }
+    };
+
+    // Helper: manual copy (using textarea)
+    function manualCopyScript(scriptText, btnElement) {
+        const textarea = document.createElement('textarea');
+        textarea.value = scriptText;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
+        const original = btnElement.innerHTML;
+        btnElement.innerHTML = '<i class="fas fa-check"></i> Copied!';
+        setTimeout(() => { btnElement.innerHTML = original; }, 1500);
+    }
+
+    // Render Scripts Vault (list of games with "Click to see more")
+    function renderScriptsVault() {
+        const container = document.getElementById('vaultGamesList');
+        if (!container) return;
+        container.innerHTML = '';
         
-        const boosts = [
-            // Common Boosts
-            {name: "Speed Boost", multiplier: 2, price: 0.50, rarity: "common", description: "2x earnings multiplier"},
-            {name: "Quick Earn", multiplier: 3, price: 1.00, rarity: "common", description: "3x earnings multiplier"},
-            {name: "Fast Track", multiplier: 4, price: 2.00, rarity: "common", description: "4x earnings multiplier"},
+        Object.values(GAME_LIBRARY).forEach(game => {
+            const previewDiv = document.createElement('div');
+            previewDiv.className = 'game-preview';
+            previewDiv.setAttribute('data-game-id', game.id);
             
-            // Rare Boosts
-            {name: "Super Boost", multiplier: 5, price: 3.50, rarity: "rare", description: "5x earnings multiplier"},
-            {name: "Turbo Mode", multiplier: 7, price: 6.00, rarity: "rare", description: "7x earnings multiplier"},
-            {name: "Power Up", multiplier: 8, price: 8.50, rarity: "rare", description: "8x earnings multiplier"},
-            
-            // Epic Boosts
-            {name: "Mega Boost", multiplier: 10, price: 12.00, rarity: "epic", description: "10x earnings multiplier"},
-            {name: "Ultra Drive", multiplier: 15, price: 20.00, rarity: "epic", description: "15x earnings multiplier"},
-            {name: "Hyper Speed", multiplier: 20, price: 35.00, rarity: "epic", description: "20x earnings multiplier"},
-            
-            // Legendary Boosts
-            {name: "Ultimate Boost", multiplier: 25, price: 50.00, rarity: "legendary", description: "25x earnings multiplier"},
-            {name: "Divine Power", multiplier: 40, price: 100.00, rarity: "legendary", description: "40x earnings multiplier"},
-            {name: "Godlike Speed", multiplier: 60, price: 200.00, rarity: "legendary", description: "60x earnings multiplier"},
-            
-            // Mythic Boosts
-            {name: "Infinite Rush", multiplier: 100, price: 500.00, rarity: "mythic", description: "100x earnings multiplier"},
-            {name: "Reality Bender", multiplier: 250, price: 1000.00, rarity: "mythic", description: "250x earnings multiplier"},
-            {name: "Time Destroyer", multiplier: 500, price: 2500.00, rarity: "mythic", description: "500x earnings multiplier"},
-            
-            // Cosmic Boosts
-            {name: "Universe Shaker", multiplier: 1000, price: 5000.00, rarity: "cosmic", description: "1000x earnings multiplier"},
-            {name: "Dimension Breaker", multiplier: 2500, price: 15000.00, rarity: "cosmic", description: "2500x earnings multiplier"},
-            {name: "Multiverse King", multiplier: 10000, price: 1.00, rarity: "cosmic", description: "10000x earnings multiplier"},
-            
-            // Special Boosts
-            {name: "Luck Enhancer", multiplier: 1.2, price: 25.00, rarity: "rare", description: "1.2x rewards from games", special: "luck"},
-            {name: "XP Doubler", multiplier: 1, price: 0.01, rarity: "epic", description: "Double XP gain", special: "xp"},
-            {name: "Auto Clicker", multiplier: 1, price: 150.00, rarity: "legendary", description: "Clicks for you every second", special: "auto"},
-            {name: "Interest Generator", multiplier: 1, price: 300.00, rarity: "mythic", description: "+0.5% balance every minute", special: "interest"},
-            {name: "Efficiency Boost", multiplier: 1, price: 200.00, rarity: "legendary", description: "Reduce timers by 20%", special: "efficiency"},
-            {name: "Time Warp", multiplier: 1, price: 400.00, rarity: "mythic", description: "Reduce timers by 50%", special: "timeWarp"}
-        ];
-        
-        function loadGameData() {
-            const savedData = localStorage.getItem('earnSimData');
-            if (savedData) {
-                gameData = JSON.parse(savedData);
-                // Check if daily bonus can be reset
-                const now = Date.now();
-                if (gameData.lastDailyClaim && (now - gameData.lastDailyClaim >= 24 * 60 * 60 * 1000)) {
-                    gameData.dailyClaimed = false;
-                }
-            }
-            updateDisplay();
-        }
-
-        function saveGameData() {
-            localStorage.setItem('earnSimData', JSON.stringify(gameData));
-        }
-
-        function resetData() {
-            if (confirm('Are you sure you want to reset all game data? This cannot be undone!')) {
-                gameData = {
-                    balance: 0,
-                    totalEarned: 0,
-                    multiplier1: 1,
-                    multiplier2: 1,
-                    multiplier3: 1,
-                    multiplier4: 1,
-                    payouts: 0,
-                    level: 1,
-                    xp: 0,
-                    clickCount: 0,
-                    dailyClaimed: false,
-                    acePosition: 0,
-                    luckBoost: false,
-                    xpDoubler: false,
-                    autoClicker: false,
-                    interestGenerator: false,
-                    efficiencyBoost: false,
-                    timeWarp: false,
-                    lastDailyClaim: 0
-                };
-                localStorage.removeItem('earnSimData');
-                document.getElementById('payoutHistory').innerHTML = '';
-                updateDisplay();
-                showNotification('Game data reset!');
-            }
-        }
-
-        function initializeBoosts() {
-            const boostGrid = document.getElementById('boostGrid');
-            boosts.forEach((boost, index) => {
-                const boostElement = document.createElement('div');
-                boostElement.className = `boost-item rarity-${boost.rarity}`;
-                boostElement.innerHTML = `
-                    <h3>${boost.name}</h3>
-                    <p>${boost.description}</p>
-                    <p class="boost-price">$${boost.price.toFixed(2)}</p>
-                    <button class="buy-btn" onclick="buyBoost(${index})">BUY BOOST</button>
-                `;
-                boostGrid.appendChild(boostElement);
+            const featuresPreview = game.features.slice(0, 4).map(f => `<span class="feature-pill">${f}</span>`).join('');
+            previewDiv.innerHTML = `
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+                    <h3 style="color: #b0f0ff; font-size: 1.5rem;">🎮 ${game.name}</h3>
+                </div>
+                <p style="color: #cddcff; margin: 6px 0;">${game.shortDesc}</p>
+                <div style="margin: 8px 0;"><span style="color:cyan;">key features:</span> ${featuresPreview}</div>
+                <button class="see-more-btn" data-game="${game.id}"><i class="fas fa-eye"></i> Click to see more</button>
+            `;
+            const seeMoreBtn = previewDiv.querySelector('.see-more-btn');
+            seeMoreBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                openGameDetail(game.id);
             });
-        }
-        
-        function switchTab(tabName) {
-            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
-            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-            
-            document.querySelector(`[onclick="switchTab('${tabName}')"]`).classList.add('active');
-            document.getElementById(tabName).classList.add('active');
-        }
-        
-        function updateDisplay() {
-            document.getElementById('balance').textContent = gameData.balance.toFixed(2);
-            document.getElementById('totalEarned').textContent = gameData.totalEarned.toFixed(2);
-            document.getElementById('level').textContent = gameData.level;
-            document.getElementById('xp').textContent = gameData.xp;
-            
-            const xpNeeded = gameData.level * 150; // Increased XP requirement
-            document.getElementById('xpNeeded').textContent = xpNeeded;
-            document.getElementById('xpBar').style.width = (gameData.xp / xpNeeded * 100) + '%';
-            
-            for(let i = 1; i <= 4; i++) {
-                const multiplierEl = document.getElementById(`multiplier${i}`);
-                if(multiplierEl) {
-                    multiplierEl.textContent = 'x' + gameData[`multiplier${i}`];
-                }
-            }
-            
-            const payoutBtn = document.getElementById('payoutBtn');
-            if(payoutBtn) {
-                payoutBtn.disabled = gameData.balance < 10;
-                if (gameData.balance >= 10) {
-                    payoutBtn.textContent = 'REQUEST FAKE PAYOUT ($10.00)';
-                }
-            }
+            // also whole card clickable
+            previewDiv.addEventListener('click', (e) => {
+                if(e.target.classList.contains('see-more-btn')) return;
+                openGameDetail(game.id);
+            });
+            container.appendChild(previewDiv);
+        });
+    }
 
-            document.getElementById('dailyBtn').disabled = gameData.dailyClaimed;
-            if (gameData.dailyClaimed) {
-                document.getElementById('dailyBtn').textContent = 'CLAIMED TODAY';
-            } else {
-                document.getElementById('dailyBtn').textContent = 'CLAIM DAILY';
-            }
-        }
+    // Open Game Detail Page (another page with full info + manual copy)
+    function openGameDetail(gameId) {
+        const game = GAME_LIBRARY[gameId];
+        if (!game) return;
         
-        function gainXP(amount) {
-            const xpGain = gameData.xpDoubler ? amount * 2 : amount;
-            gameData.xp += xpGain;
-            const xpNeeded = gameData.level * 150; // Increased difficulty
-            if(gameData.xp >= xpNeeded) {
-                gameData.xp -= xpNeeded;
-                gameData.level++;
-                showNotification(`🎉 Level Up! Now level ${gameData.level}`);
-                const bonus = gameData.level * 0.25; // Reduced level up bonus
-                gameData.balance += bonus;
-                gameData.totalEarned += bonus;
-                showNotification(`💰 Level up bonus: $${bonus.toFixed(2)}`);
-            }
-            saveGameData();
-        }
+        // populate detail page
+        const titleElem = document.getElementById('detailGameTitle');
+        const contentContainer = document.getElementById('gameDetailContent');
+        if (titleElem) titleElem.innerHTML = `<i class="fas fa-info-circle"></i> ${game.name} · detail`;
         
-        function showNotification(message) {
-            const notification = document.getElementById('notification');
-            notification.textContent = message;
-            notification.classList.add('show');
-            setTimeout(() => {
-                notification.classList.remove('show');
-            }, 3000);
-        }
+        contentContainer.innerHTML = '';
         
-        function getTimerReduction() {
-            let reduction = 1;
-            if (gameData.efficiencyBoost) reduction *= 0.8;
-            if (gameData.timeWarp) reduction *= 0.5;
-            return reduction;
-        }
+        const detailDiv = document.createElement('div');
+        detailDiv.style.animation = "fadeSlide 0.3s ease";
         
-        function startEarning(buttonNum, duration, baseAmount) {
-            const button = document.getElementById(`earn${buttonNum}`);
-            const timer = document.getElementById(`timer${buttonNum}`);
-            const multiplier = gameData[`multiplier${buttonNum}`];
-            
-            button.disabled = true;
-            const reducedDuration = duration * getTimerReduction();
-            
-            let timeLeft = reducedDuration;
-            const interval = setInterval(() => {
-                timeLeft -= 100;
-                timer.textContent = `⏱️ ${(timeLeft / 1000).toFixed(1)}s`;
-                
-                if (timeLeft <= 0) {
-                    clearInterval(interval);
-                    const earned = baseAmount * multiplier;
-                    gameData.balance += earned;
-                    gameData.totalEarned += earned;
-                    gainXP(5);
-                    
-                    button.disabled = false;
-                    timer.textContent = '';
-                    updateDisplay();
-                    showNotification(`+$${earned.toFixed(2)} earned!`);
-                }
-            }, 100);
-            saveGameData();
-        }
+        // full feature list
+        const featuresFull = game.features.map(f => `<span class="feature-pill">⚡ ${f}</span>`).join('');
         
-        function buyBoost(index) {
-            const boost = boosts[index];
-            if (gameData.balance >= boost.price) {
-                gameData.balance -= boost.price;
-                
-                if(boost.special) {
-                    handleSpecialBoost(boost);
-                } else {
-                    for(let i = 1; i <= 4; i++) {
-                        gameData[`multiplier${i}`] = Math.max(gameData[`multiplier${i}`], boost.multiplier);
-                    }
-                }
-                
-                updateDisplay();
-                showNotification(`${boost.name} purchased! ${boost.description}`);
-                saveGameData();
-            } else {
-                showNotification('Not enough fake money!');
-            }
-        }
-        
-        function handleSpecialBoost(boost) {
-            switch(boost.special) {
-                case 'luck':
-                    gameData.luckBoost = true;
-                    break;
-                case 'xp':
-                    gameData.xpDoubler = true;
-                    break;
-                case 'auto':
-                    if(!gameData.autoClicker) {
-                        gameData.autoClicker = true;
-                        setInterval(() => {
-                            gameData.balance += 0.005 * gameData.multiplier1;
-                            gameData.totalEarned += 0.005 * gameData.multiplier1;
-                            updateDisplay();
-                            saveGameData();
-                        }, 1000);
-                    }
-                    break;
-                case 'interest':
-                    if(!gameData.interestGenerator) {
-                        gameData.interestGenerator = true;
-                        setInterval(() => {
-                            const interest = gameData.balance * 0.005; // Reduced to 0.5%
-                            gameData.balance += interest;
-                            gameData.totalEarned += interest;
-                            if(interest > 0.01) {
-                                showNotification(`💰 Interest earned: ${interest.toFixed(2)}`);
-                            }
-                            updateDisplay();
-                            saveGameData();
-                        }, 60000);
-                    }
-                    break;
-                case 'efficiency':
-                    gameData.efficiencyBoost = true;
-                    break;
-                case 'timeWarp':
-                    gameData.timeWarp = true;
-                    break;
-            }
-        }
-        
-        function investStock() {
-            const amount = parseFloat(document.getElementById('stockAmount').value);
-            if(gameData.balance >= amount) {
-                gameData.balance -= amount;
-                updateDisplay();
-                showNotification('📊 Investment started...');
-                
-                const duration = 60000 * getTimerReduction();
-                setTimeout(() => {
-                    const lossChance = Math.random();
-                    let profit = 0;
-                    if (lossChance < 0.4) { // 40% chance to lose
-                        showNotification('📉 Investment failed! Lost investment.');
-                    } else {
-                        const return_multiplier = Math.random() * 2; // 0x-2x return
-                        profit = amount * return_multiplier;
-                        gameData.balance += profit;
-                        gameData.totalEarned += profit - amount;
-                        showNotification(`📈 Stock returned: ${profit.toFixed(2)}`);
-                    }
-                    gainXP(15 * amount);
-                    updateDisplay();
-                    saveGameData();
-                }, duration);
-            } else {
-                showNotification(`Need $${amount.toFixed(2)} to invest!`);
-            }
-        }
-        
-        function startMining() {
-            const amount = parseFloat(document.getElementById('miningAmount').value);
-            if(gameData.balance >= amount) {
-                gameData.balance -= amount;
-                updateDisplay();
-                const miningTimer = document.getElementById('miningTimer');
-                showNotification('⛏️ Mining started...');
-                
-                let timeLeft = 60000 * getTimerReduction();
-                const interval = setInterval(() => {
-                    timeLeft -= 1000;
-                    miningTimer.textContent = `⏱️ ${Math.ceil(timeLeft / 1000)}s`;
-                    
-                    if(timeLeft <= 0) {
-                        clearInterval(interval);
-                        const lossChance = Math.random();
-                        let mined = 0;
-                        if (lossChance < 0.3) { // 30% chance to lose
-                            showNotification('⛏️ Mining failed! Lost investment.');
-                        } else {
-                            mined = amount * (Math.random() * 2.5); // 0x-2.5x return
-                            gameData.balance += mined;
-                            gameData.totalEarned += mined - amount;
-                            showNotification(`⛏️ Mined: ${mined.toFixed(2)}`);
-                        }
-                        gainXP(20 * amount);
-                        miningTimer.textContent = '';
-                        updateDisplay();
-                        saveGameData();
-                    }
-                }, 1000);
-            } else {
-                showNotification(`Need $${amount.toFixed(2)} to start mining!`);
-            }
-        }
-        
-        function spinWheel() {
-            if(gameData.balance >= 0.25) {
-                gameData.balance -= 0.25;
-                updateDisplay();
-                
-                const outcomes = [0, 0.10, 0.20, 0.30, 0.50, 1.00, 1.50, 2.00];
-                const weights = [40, 30, 15, 10, 3, 1.5, 0.4, 0.1]; // Increased chance of low/no rewards
-                
-                let random = Math.random() * 100;
-                let cumulative = 0;
-                let winAmount = 0;
-                
-                for(let i = 0; i < weights.length; i++) {
-                    cumulative += weights[i];
-                    if(random <= cumulative) {
-                        winAmount = outcomes[i];
-                        break;
-                    }
-                }
-                
-                if(gameData.luckBoost) winAmount *= 1.2; // Reduced luck boost effect
-                
-                gameData.balance += winAmount;
-                gameData.totalEarned += winAmount - 999999;
-                gainXP(10);
-                updateDisplay();
-                showNotification(`🎰 Spin result: ${winAmount.toFixed(2)}`);
-                saveGameData();
-            } else {
-                showNotification('Need $0 to spin!');
-            }
-        }
-        
-        function startSurvey() {
-            const surveyBtn = document.getElementById('surveyBtn');
-            const surveyTimer = document.getElementById('surveyTimer');
-            
-            surveyBtn.disabled = true;
-            showNotification('📝 Starting survey...');
-            
-            let timeLeft = 20000 * getTimerReduction();
-            const interval = setInterval(() => {
-                timeLeft -= 1000;
-                surveyTimer.textContent = `⏱️ ${Math.ceil(timeLeft / 1000)}s`;
-                
-                if(timeLeft <= 0) {
-                    clearInterval(interval);
-                    const earned = 0.15 * gameData.multiplier1;
-                    gameData.balance += earned;
-                    gameData.totalEarned += earned;
-                    gainXP(8);
-                    surveyBtn.disabled = false;
-                    surveyTimer.textContent = '';
-                    updateDisplay();
-                    showNotification(`📝 Survey completed: ${earned.toFixed(2)}`);
-                    saveGameData();
-                }
-            }, 1000);
-        }
-        
-        function watchAd() {
-            const adBtn = document.getElementById('adBtn');
-            const adTimer = document.getElementById('adTimer');
-            
-            adBtn.disabled = true;
-            showNotification('📱 Watching ad...');
-            
-            let timeLeft = 10000 * getTimerReduction();
-            const interval = setInterval(() => {
-                timeLeft -= 1000;
-                adTimer.textContent = `⏱️ ${Math.ceil(timeLeft / 1000)}s`;
-                
-                if(timeLeft <= 0) {
-                    clearInterval(interval);
-                    const earned = 0.05 * gameData.multiplier1;
-                    gameData.balance += earned;
-                    gameData.totalEarned += earned;
-                    gainXP(3);
-                    adBtn.disabled = false;
-                    adTimer.textContent = '';
-                    updateDisplay();
-                    showNotification(`📱 Ad watched: ${earned.toFixed(2)}`);
-                    saveGameData();
-                }
-            }, 1000);
-        }
-        
-        function claimDaily() {
-            if(!gameData.dailyClaimed) {
-                const earned = 2.00 * gameData.multiplier1;
-                gameData.balance += earned;
-                gameData.totalEarned += earned;
-                gameData.dailyClaimed = true;
-                gameData.lastDailyClaim = Date.now();
-                gainXP(50);
-                updateDisplay();
-                showNotification(`🎯 Daily bonus claimed: ${earned.toFixed(2)}`);
-                
-                document.getElementById('dailyBtn').textContent = 'CLAIMED TODAY';
-                document.getElementById('dailyBtn').disabled = true;
-                
-                setTimeout(() => {
-                    gameData.dailyClaimed = false;
-                    document.getElementById('dailyBtn').textContent = 'CLAIM DAILY';
-                    document.getElementById('dailyBtn').disabled = false;
-                    updateDisplay();
-                    showNotification('🎯 Daily bonus available again!');
-                    saveGameData();
-                }, 24 * 60 * 60 * 1000); // 0.001 hours
-                saveGameData();
-            }
-        }
-        
-        function playGuessGame() {
-            const guess = parseInt(document.getElementById('guessInput').value);
-            const correct = Math.floor(Math.random() * 10) + 1;
-            
-            if(guess >= 1 && guess <= 10) {
-                if(guess === correct) {
-                    let winAmount = 0.50;
-                    if(gameData.luckBoost) winAmount *= 999999999999999999999;
-                    gameData.balance += winAmount;
-                    gameData.totalEarned += winAmount;
-                    gainXP(25);
-                    showNotification(`🎉 Correct! Number was ${correct}. Won ${winAmount.toFixed(2)}`);
-                } else {
-                    gameData.balance -= 0.15; // Increased loss penalty
-                    showNotification(`❌ Wrong! Number was ${correct}. Lost $0`);
-                }
-                updateDisplay();
-                document.getElementById('guessInput').value = '';
-                saveGameData();
-            } else {
-                showNotification('Please enter a number between 1 and 1!');
-            }
-        }
-        
-        function flipCard(cardIndex) {
-            if(gameData.acePosition === cardIndex) {
-                let winAmount = 1.00;
-                if(gameData.luckBoost) winAmount *= 1.2;
-                gameData.balance += winAmount;
-                gameData.totalEarned += winAmount;
-                gainXP(30);
-                showNotification(`🃏 Found the Ace! Won ${winAmount.toFixed(2)}`);
-            } else {
-                gameData.balance -= 0.35; // Increased loss penalty
-                showNotification(`❌ Wrong card! The Ace was at position ${gameData.acePosition + 1}`);
-            }
-            
-            gameData.acePosition = Math.floor(Math.random() * 4);
-            updateDisplay();
-            saveGameData();
-        }
-        
-        function startClickChallenge() {
-            const clickBtn = document.getElementById('clickBtn');
-            const clickCountEl = document.getElementById('clickCount');
-            const clickTimeEl = document.getElementById('clickTime');
-            
-            gameData.clickCount = 0;
-            let timeLeft = 10;
-            
-            clickBtn.disabled = true;
-            clickBtn.textContent = 'CLICK ME FAST!';
-            clickBtn.onclick = () => {
-                gameData.clickCount++;
-                clickCountEl.textContent = gameData.clickCount;
-            };
-            
-            const interval = setInterval(() => {
-                timeLeft--;
-                clickTimeEl.textContent = timeLeft;
-                
-                if(timeLeft <= 0) {
-                    clearInterval(interval);
-                    const earned = gameData.clickCount * 0.005 * gameData.multiplier1; // Reduced per-click reward
-                    gameData.balance += earned;
-                    gameData.totalEarned += earned;
-                    gainXP(gameData.clickCount);
-                    
-                    clickBtn.disabled = false;
-                    clickBtn.textContent = 'START CHALLENGE';
-                    clickBtn.onclick = () => startClickChallenge();
-                    clickTimeEl.textContent = '10';
-                    
-                    updateDisplay();
-                    showNotification(`⚡ Challenge complete! ${gameData.clickCount} clicks = ${earned.toFixed(2)}`);
-                    saveGameData();
-                }
-            }, 1000);
-        }
-        
-        function requestPayout() {
-            if (gameData.balance >= 10) {
-                gameData.balance -= 10;
-                gameData.payouts++;
-                updateDisplay();
-                
-                const payoutHistory = document.getElementById('payoutHistory');
-                const payoutDiv = document.createElement('div');
-                payoutDiv.style.cssText = 'margin-top: 10px; padding: 10px; background: rgba(0,255,0,0.2); border-radius: 5px;';
-                payoutDiv.innerHTML = `✅ Fake Payout #${gameData.payouts}: $10.00 - ${new Date().toLocaleString()}`;
-                payoutHistory.appendChild(payoutDiv);
-                
-                showNotification('Fake payout processed! 🎉');
-                gainXP(100);
-                
-                if (gameData.payouts >= 3) {
-                    const specialShop = document.createElement('div');
-                    specialShop.style.cssText = 'margin-top: 20px; padding: 15px; background: rgba(255,215,0,0.2); border-radius: 10px; border: 2px solid gold;';
-                    specialShop.innerHTML = `
-                        <h3>🏆 VIP Shop Unlocked!</h3>
-                        <p>Spend your fake payouts here:</p>
-                        <button onclick="buyFakeItem('Golden Badge', 2)" style="margin: 5px; padding: 10px; background: gold; color: black; border: none; border-radius: 5px; cursor: pointer;">Golden Badge (2 payouts)</button>
-                        <button onclick="buyFakeItem('Diamond Trophy', 5)" style="margin: 5px; padding: 10px; background: lightblue; color: black; border: none; border-radius: 5px; cursor: pointer;">Diamond Trophy (5 payouts)</button>
-                        <button onclick="buyFakeItem('Platinum Crown', 10)" style="margin: 5px; padding: 10px; background: silver; color: black; border: none; border-radius: 5px; cursor: pointer;">Platinum Crown (10 payouts)</button>
-                        <button onclick="buyFakeItem('Legendary Sword', 20)" style="margin: 5px; padding: 10px; background: purple; color: white; border: none; border-radius: 5px; cursor: pointer;">Legendary Sword (20 payouts)</button>
-                    `;
-                    if (!document.querySelector('.vip-shop')) {
-                        specialShop.className = 'vip-shop';
-                        payoutHistory.appendChild(specialShop);
-                    }
-                }
-                saveGameData();
-            }
-        }
-        
-        function buyFakeItem(item, cost) {
-            if (gameData.payouts >= cost) {
-                gameData.payouts -= cost;
-                showNotification(`🎁 You bought: ${item}! (This is fake too!)`);
-                updateDisplay();
-                saveGameData();
-            } else {
-                showNotification('Not enough fake payouts!');
-            }
-        }
-        
-        function initGame() {
-            loadGameData();
-            initializeBoosts();
-            updateDisplay();
-            gameData.acePosition = Math.floor(Math.random() * 4);
-            
-            setInterval(() => {
-                const particle = document.createElement('div');
-                particle.textContent = ['💰', '💎', '⭐', '🎉', '✨', '🚀', '⚡', '🎯'][Math.floor(Math.random() * 8)];
-                particle.style.cssText = `
-                    position: fixed;
-                    font-size: 20px;
-                    pointer-events: none;
-                    z-index: 999;
-                    animation: float 3s ease-out forwards;
-                    left: ${Math.random() * window.innerWidth}px;
-                    top: ${window.innerHeight}px;
-                `;
-                document.body.appendChild(particle);
-                setTimeout(() => particle.remove(), 3000);
-            }, 2000);
-        }
-        
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes float {
-                to {
-                    transform: translateY(-100vh) rotate(360deg);
-                    opacity: 0;
-                }
-            }
+        detailDiv.innerHTML = `
+            <div class="detail-section">
+                <h2 style="color: cyan;">${game.name}</h2>
+                <p style="color: #e0ecff; margin-top: 0.5rem;">${game.fullDesc || game.shortDesc}</p>
+                <hr>
+                <div><strong style="color: cyan;">🔧 Advanced Features:</strong></div>
+                <div class="feature-grid">${featuresFull}</div>
+                <div style="background: #00000066; border-radius: 1rem; padding: 0.8rem; margin: 1rem 0;">
+                    <i class="fas fa-exclamation-triangle" style="color: cyan;"></i> <span style="color: #ffdd99;">${game.note}</span>
+                </div>
+                <div>
+                    <strong style="color: cyan;"><i class="fas fa-gamepad"></i> Roblox Game Link:</strong>
+                    <button id="findGameBtnDetail" style="background: #0a6b8f; border: none; padding: 0.35rem 1rem; border-radius: 2rem; margin-left: 0.8rem; cursor: pointer; color: white;">Find Game →</button>
+                </div>
+                <div style="margin-top: 1.8rem;">
+                    <strong style="color: cyan;"><i class="fas fa-terminal"></i> Script (Manual Copy):</strong>
+                    <div class="copy-manual-area" id="manualScriptText">${escapeHtml(game.scriptCode)}</div>
+                    <button id="manualCopyButton" class="btn-manual-copy"><i class="far fa-copy"></i> Copy Script Manually</button>
+                </div>
+            </div>
         `;
-        document.head.appendChild(style);
         
-        initGame();
-    </script>
+        contentContainer.appendChild(detailDiv);
+        
+        const findBtn = detailDiv.querySelector('#findGameBtnDetail');
+        findBtn.addEventListener('click', () => {
+            window.open(game.gameUrl, '_blank');
+        });
+        
+        const manualCopyBtn = detailDiv.querySelector('#manualCopyButton');
+        manualCopyBtn.addEventListener('click', () => {
+            manualCopyScript(game.scriptCode, manualCopyBtn);
+        });
+        
+        // transition to detail page
+        switchToPage('gameDetailPage');
+    }
+    
+    function escapeHtml(str) {
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function(c) {
+            return c;
+        });
+    }
+
+    // Pricing page (white text, step by step)
+    function renderPricingPage() {
+        const container = document.getElementById('pricingDynamicContent');
+        if (!container) return;
+        container.innerHTML = '';
+        
+        const startDiv = document.createElement('div');
+        startDiv.style.textAlign = 'center';
+        startDiv.style.padding = '1.5rem';
+        startDiv.innerHTML = `
+            <i class="fas fa-rocket" style="font-size: 3.8rem; color: cyan;"></i>
+            <h2 style="color: white; margin: 1rem 0;">Get Started</h2>
+            <button id="continuePricingBtn" style="background: cyan; border: none; padding: 12px 28px; border-radius: 60px; font-weight: bold; cursor: pointer;">Continue →</button>
+        `;
+        container.appendChild(startDiv);
+        
+        const continueBtn = startDiv.querySelector('#continuePricingBtn');
+        continueBtn.addEventListener('click', () => {
+            container.innerHTML = '';
+            const stepsCard = document.createElement('div');
+            stepsCard.className = 'detail-section';
+            stepsCard.style.background = "rgba(10,20,35,0.9)";
+            stepsCard.innerHTML = `
+                <h3 style="color: cyan;">📋 Activation Blueprint</h3>
+                <div style="margin-top: 1.2rem;">
+                    <div class="step-item" style="display: flex; align-items: center; gap: 1rem; margin: 1rem 0; color: white;"><span style="background: cyan; color:black; width:28px; height:28px; display:inline-flex; align-items:center; justify-content:center; border-radius:30px;">1</span> Go back to main page</div>
+                    <div class="step-item" style="display: flex; align-items: center; gap: 1rem; margin: 1rem 0; color: white;"><span style="background: cyan; color:black; width:28px; height:28px; display:inline-flex; align-items:center; justify-content:center; border-radius:30px;">2</span> Click <strong style="color:cyan;">Scripts</strong> card</div>
+                    <div class="step-item" style="display: flex; align-items: center; gap: 1rem; margin: 1rem 0; color: white;"><span style="background: cyan; color:black; width:28px; height:28px; display:inline-flex; align-items:center; justify-content:center; border-radius:30px;">3</span> Click "<strong style="color:cyan;">Click to see more</strong>" on your game</div>
+                    <div class="step-item" style="display: flex; align-items: center; gap: 1rem; margin: 1rem 0; color: white;"><span style="background: cyan; color:black; width:28px; height:28px; display:inline-flex; align-items:center; justify-content:center; border-radius:30px;">4</span> Copy script manually & execute in executor</div>
+                </div>
+                <hr>
+                <button id="pricingBackHome" class="nav-back" style="background:rgba(255,70,100,0.3); margin-top:1rem;"><i class="fas fa-home"></i> Go Back to Hub</button>
+            `;
+            container.appendChild(stepsCard);
+            const backHome = stepsCard.querySelector('#pricingBackHome');
+            backHome.addEventListener('click', () => switchToPage('mainMenuPage'));
+        });
+        
+        const styleWhiteFix = document.createElement('style');
+        styleWhiteFix.textContent = `#pricingDynamicContent, #pricingDynamicContent * { color: white !important; } .step-item span { color: black !important; } #continuePricingBtn { color: black; } .nav-back { color: white !important; }`;
+        if(!document.querySelector('#pricingWhiteFinal')) {
+            styleWhiteFix.id = 'pricingWhiteFinal';
+            document.head.appendChild(styleWhiteFix);
+        }
+    }
+
+    // Page transition engine
+    function switchToPage(pageId) {
+        const allPages = document.querySelectorAll('.page');
+        allPages.forEach(page => page.classList.remove('active'));
+        const target = document.getElementById(pageId);
+        if(target) target.classList.add('active');
+        
+        // load dynamic content if needed
+        if(pageId === 'scriptsVaultPage') {
+            renderScriptsVault();
+        } else if(pageId === 'pricingPage') {
+            renderPricingPage();
+        }
+    }
+    
+    // Navigation handlers
+    function bindNavigation() {
+        document.getElementById('backFromVault')?.addEventListener('click', () => switchToPage('mainMenuPage'));
+        document.getElementById('backFromDetail')?.addEventListener('click', () => switchToPage('scriptsVaultPage'));
+        document.getElementById('backFromPricing')?.addEventListener('click', () => switchToPage('mainMenuPage'));
+        document.getElementById('backFromDev')?.addEventListener('click', () => switchToPage('mainMenuPage'));
+        
+        // Main menu card triggers
+        const mainMenu = document.getElementById('mainMenuPage');
+        mainMenu.addEventListener('click', (e) => {
+            const card = e.target.closest('.menu-card');
+            if(!card) return;
+            const nav = card.getAttribute('data-nav');
+            if(nav === 'scripts') switchToPage('scriptsVaultPage');
+            else if(nav === 'pricing') switchToPage('pricingPage');
+            else if(nav === 'dev') switchToPage('devPage');
+        });
+    }
+    
+    // initial render
+    function init() {
+        renderScriptsVault();
+        renderPricingPage();
+        bindNavigation();
+        // prefill dev static already set
+        document.body.style.overflow = 'hidden';
+    }
+    
+    init();
+    
+    // small animation style
+    const styleAnim = document.createElement('style');
+    styleAnim.textContent = `
+        @keyframes fadeSlide {
+            from { opacity:0; transform: translateX(6px);}
+            to { opacity:1; transform: translateX(0);}
+        }
+        .game-preview, .detail-section { animation: fadeSlide 0.25s ease; }
+    `;
+    document.head.appendChild(styleAnim);
+</script>
 </body>
-</html>
-
-
-      
-    </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/4.1.0/anchor.min.js" integrity="sha256-lZaRhKri35AyJSypXXs4o6OPFTbTmUoltBbDCbdzegg=" crossorigin="anonymous"></script>
-    <script>anchors.add();</script>
-  </body>
 </html>
